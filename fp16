@@ -1,0 +1,155 @@
+Login to server gb-blr-12 with ubuntu(U/P)
+
+sudo su
+
+tmux ls
+tmux new -s qnnhandsonn
+tmux attach -t qnnhandsonn
+ctrl + B and D
+
+sudo docker pull docker-registry.qualcomm.com/qraniumtest/qranium:QNN-1.20.0.109-ubuntu22-x86_64
+
+docker run --privileged -dit --rm -v /home/qraniumtest:/home/qraniumtest -v /usr/bin/time:/usr/bin/time --name handsonn docker-registry.qualcomm.com/qraniumtest/qranium:QNN-1.20.0.109-ubuntu22-x86_64
+
+sudo docker exec -it handsonn bash
+
+source /opt/venv_py310/bin/activate
+
+
+python3 -m pip install --upgrade pip
+
+${QNN_SDK_ROOT}/bin/check-python-dependency
+
+pip install onnx
+pip install onnxruntime
+
+ls /home/qraniumtest/model_zoo/internal/DistillBert/generatedModels/ONNX/DistillBert_Flexible_BS_SL.onnx
+
+Qairt Converter:
+
+/qnn_sdk/bin/x86_64-linux-clang/qairt-converter --input_network /home/qraniumtest/model_zoo//internal/DistillBert/generatedModels/ONNX/DistillBert_Flexible_BS_SL.onnx --output_path /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-fp16-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/model.dlc --float_bitwidth 16 --float_bias_bitwidth 32 --preserve_io_datatype  --onnx_define_symbol batch_size 8 --onnx_define_symbol seq_length 128 --onnx_skip_simplification  --onnx_defer_loading
+
+Context Binary Generator:
+
+nano /home/qraniumtest/qnn_aic_map.json
+
+///
+{
+    "compiler_VTCM_working_set_limit_ratio": 1.0,
+    "compiler_convert_to_FP16": true,
+    "compiler_do_DDR_to_multicast": true,
+    "compiler_hardware_version": "2.0",
+    "compiler_max_out_channel_split": "1",
+    "compiler_num_of_cores": 2,
+    "compiler_overlap_split_factor": 1,
+    "compiler_perfWarnings": true,
+    "compiler_printPerfMetrics": true,
+    "compiler_size_split_granularity": 1024,
+    "compiler_stat_level": 40,
+    "compiler_stats_batch_size": 8,
+    "graph_names": [
+        "model"
+    ]
+}
+
+///
+
+nano /home/qraniumtest/qnn_config.json
+
+///
+
+{
+    "backend_extensions": {
+        "config_file_path": "/home/qraniumtest/qnn_aic_map.json",
+        "shared_library_path": "/qnn_sdk/lib/x86_64-linux-clang/libQnnAicNetRunExtensions.so"
+    }
+}
+
+///
+
+
+/qnn_sdk/bin/x86_64-linux-clang/qnn-context-binary-generator --binary_file qnngraph.serialized --backend /qnn_sdk/lib/x86_64-linux-clang/libQnnAic.so --output_dir /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-fp16-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0 --config_file /home/qraniumtest/qnn_config.json --log_level debug --backend_binary /qnn_sdk/lib/x86_64-linux-clang/libQnnModelDlc.so --dlc_path /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-fp16-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/model.dlc
+
+
+Net_runner_command_generation:
+
+///
+nano /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-fp16-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_list.txt
+
+
+input_ids:=/home/qraniumtest/model_zoo//model-inputs/inputs/distilBert/SL-128/batch_size_8/./input_0.raw input_mask:=/home/qraniumtest/model_zoo//model-inputs/inputs/distilBert/SL-128/batch_size_8/./mask_0.raw
+
+///
+///
+nano /home/qraniumtest/qnn_net_runner_backend_options_2b4a6828-e281-45f2-b969-ccba37364239.json
+
+
+{
+    "runtime_device_ids": [
+        5
+    ],
+    "runtime_num_activations": 7,
+    "runtime_threads_per_queue": 4
+}
+
+///
+///
+nano /home/qraniumtest/qnn_net_runner_config_2b4a6828-e281-45f2-b969-ccba37364239.json
+
+
+{
+    "backend_extensions": {
+        "config_file_path": "/home/qraniumtest/qnn_net_runner_backend_options_2b4a6828-e281-45f2-b969-ccba37364239.json",
+        "shared_library_path": "/qnn_sdk/libQnnAicNetRunExtensions.so"
+    }
+}
+
+///
+
+
+/qnn_sdk/bin/x86_64-linux-clang/qnn-net-run --backend /qnn_sdk/lib/x86_64-linux-clang/libQnnAic.so --input_list /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-fp16-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_list.txt --retrieve_context /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-fp16-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnngraph.serialized.bin --log_level debug --profiling_level basic --output_dir output_2b4a6828-e281-45f2-b969-ccba37364239 --config_file /home/qraniumtest/qnn_net_runner_config_2b4a6828-e281-45f2-b969-ccba37364239.json  --duration 10 --keep_num_outputs 2 --use_native_input_files --max_input_cache_tensor_sets -1
+
+
+profile_viewer_command_generation:
+
+/qnn_sdk/bin/x86_64-linux-clang/qnn-profile-viewer --input_log output_2b4a6828-e281-45f2-b969-ccba37364239/qnn-profiling-data.log --reader /qnn_sdk/lib/x86_64-linux-clang/libQnnAicProfilingReader.so"
+
+
+
+
+ 
+RESULTS: 
+
+Input Log File Location: output_2b4a6828-e281-45f2-b969-ccba37364239/qnn-profiling-data.log
+Log File Created: Wed May 21 08:54:45 2025
+Time Scale: 1e-06
+Epoch Timestamp: 1747817685605641 Steady Clock Timestamp: 1273882450553
+Generated using:
+qnn-profile-viewer v2.36.0.250516152439_-3877-aic
+qnn-net-run        v2.36.0.250516152439_-3877-aic
+Backend            v2.36.0.250516152439_-3877-aic
+
+Execute Stats (Overall):
+------------------------
+Batch Size: 8
+Number of Instances: 7
+Total Number of Inferences: 6053
+Total Host Execution Time: 10129140 us
+
+Throughput:
+  Host Throughput (batched): 597.7955 inf/sec
+  Host Throughput: 4782.3636 inf/sec
+
+  Average Device Per Instance Throughput (batched): 85.6831 inf/sec
+  Average Device Throughput (batched): 599.7815 inf/sec
+  Average Device Throughput: 4798.2520 inf/sec
+
+Device Metrics:
+  -------------------------------------------------------------------------------------------------
+  Function  Device  Metric                 Average       Minimum       Maximum       Std. Dev.
+  -------------------------------------------------------------------------------------------------
+  0         0       BatchInfPerSec         85.7224       57.6371       89.2003       1.6481
+  0         0       EffectiveFrequencyMHz  1101.2870     1099.7415     1424.5756     16.1141
+  0         0       ExecTimeUs             11670.9173    11210.7292    17349.9479    278.0073
+  0         0       InfPCycles             12856808.5525 12384494.0000 23975868.0000 532940.3534
+  0         0       InfPerSec              685.7788      461.0965      713.6021      13.1850
