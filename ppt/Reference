@@ -1,0 +1,1538 @@
+Karthik V G
+refer thsi bro https://review.qualcomm.com/plugins/gitiles/qranium/test/+/master/apps-test/tools/cli-automation/
+ 
+Sudheep will talk to you
+ 
+Karthik V G
+refer thsi bro https://review.qualcomm.com/plugins/gitiles/qranium/test/+/master/apps-test/tools/cli-automation/
+similar ah dhan nenga create pananum 
+/////
+
+review.qualcomm.com / qranium / test / master / . / apps-test / tools / cli-automation
+tree: 49b671c4c8d1b9b13c5f6f34dbfb31006a067888 [path history] [tgz]
+
+config/
+log/
+output_files/
+results/
+tools/
+utils/
+cli_parser.py
+ui_app.py
+
+config/
+config.py
+
+import os
+from pathlib import Path
+import sys 
+set_path = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(set_path))
+root_dir = set_path
+log_dir = os.path.join(root_dir,'log')
+output_files_dir = os.path.join(root_dir,"output_files")
+results_dir = os.path.join(root_dir,"results")
+help_commands_text_file = "help_commands.txt"
+usage_commands_text_file = "usage_command_output.txt"
+help_commands_json_file = "data_help.json"
+usage_commands_json_file = "data_usage.json"
+#qaic-tools path
+help_command = "/opt/qti-aic/exec/{} -h"
+execution_command = "/opt/qti-aic/exec/{} "
+#Generic across tools
+tool_args_config_yaml = os.path.join(root_dir,"tools/{}/args_config.yaml")
+aic_profiling_out_dir = os.path.join(log_dir ,'optrace/{}')
+#Qaic-exec
+qaic_exec_compilation_log = os.path.join(log_dir,"command_execution_logs/qaic_exec_{}.log")
+#qaic-runner
+qaic_runner_execution_logs = os.path.join(log_dir,"command_execution_logs/qaic_runner_{}.log")
+#qaic-api-test
+qaic_api_test_execution_logs = os.path.join(log_dir,"command_execution_logs/qaic_api_test_{}.log")
+qaic_api_test_json_file = os.path.join(root_dir,'tools/qaic-api-test/qaic-api-test-cli-automation.json')
+
+///
+log/
+command_execution_logs/ .placeholder
+
+ optrace / .placeholder
+
+ .placeholder
+
+
+///
+output_files/
+ .placeholder
+
+
+///
+results / .placeholder
+
+///
+tools / 
+
+qaic-api-test
+qaic-exec
+qaic-runner
+
+qaic-api-test/args_config.yaml
+
+- baseSDKversion: 
+  -
+    Platform: 1.10.0.73
+    Apps: 1.10.0.73
+- options:
+  -
+    name: d
+    value: ['0']
+    datatype: int
+    dependency: null
+    
+  -
+    name: t
+    value: ['/home/qraniumtest/binaries/GM_HighwayPkg_TopViewOD/onnx-multi-input-fp16-ppp-aic-cores-1-bs-def-mos-def-ols-def-inst-1-clust-def-dfs-yes/','/home/qraniumtest/binaries/yolov5s_with_abp_qnms/onnx-416x416-int8-ppp-def-cores-1-bs-1-mos-def-ols-4-inst-14-clust-def-dfs-no']
+    datatype: list
+    dependency: null
+  
+  -
+    name: i
+    value: ['/home/qraniumtest/secure_auto_models/GM/highway_pkg/TopViewOD/GM_HighwayPkg_TopViewOD_0.6.0/list.txt',false,'/home/qraniumtest/model_zoo/model-inputs/inputs/416x416/batch_size_1/file-list.txt']
+    datatype: list
+    dependency: null
+  -
+    name: -io-order-file
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: j
+    value: [config.qaic_api_test_json_file,false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: n
+    value: [false] # To Do : Need to write condition in automation either to use n or time option
+    datatype: list
+    dependency: null
+  -
+    name: time
+    value: 10 # Need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: l
+    value: 1 #need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: r
+    value: 1000 #need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: s
+    value: 1 #need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: a
+    value: [1,false] # Need to populate all the values
+    datatype: list
+    dependency: null
+  -
+    name: -aic-profiling-start-iter
+    value: [false] # Need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: -aic-profiling-start-delay
+    value: [2500,false] # Need to populate all the values
+    datatype: int
+    dependency: null
+  -
+    name: -aic-profiling-num-samples
+    value: [5,false] # Need to populate all the values
+    datatype: int
+    dependency: null
+  -
+    name: -aic-profiling-format
+    value: [false]
+    datatype: list
+    dependency: null
+  -
+    name: -aic-profiling-type
+    value: ['stats','trace','latency',false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: -aic-profiling-duration
+    value: [false]
+    datatype: int
+    dependency: null
+  -
+    name: -aic-profiling-sampling-rate
+    value: [false]
+    datatype: list
+    dependency: null 
+  
+  -
+    name: -aic-profiling-reporting-rate
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: -aic-profiling-out-dir
+    value: [config.aic_profiling_out_dir,false]
+    datatype: string
+    dependency: null
+  -
+    name: -write-output-start-iter
+    value: [false] # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: -write-output-num-samples
+    value: [false] # Need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: -write-output-dir
+    value: [false]
+    datatype: string
+    depedency: null
+  
+  -
+    name: -aic-batch-input-directory
+    value: [false] # Need to handel dependency with -i option
+    datatype: list
+    dependency: null
+  
+  -
+    name: -aic-batch-input-file-list
+    value: [false] # Need to handel dependency with -i option
+    datatype: list
+    dependency: null
+  
+  -
+    name: -aic-batch-json-input
+    value: [false] # Need to handel dependency with -i option
+    datatype: list
+    dependency: null
+  
+  - 
+    name: -aic-batch-max-memory
+    value: 5000 # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: -submit-timeout
+    value: 5000 # Need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: -submit-retry-count
+    value: 5 # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: -constants-file
+    value: [false] # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: S
+    value: [10,false] # Need to update all values
+    datatype: list
+    dependency: null
+  
+  -
+    name: T
+    value: 4 # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: q
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: c
+    value: [false]
+    datatype: list
+    dependency: null
+  -
+    name: p
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: -pre-processing-skip-stage
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: -post-processing-skip-stage
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: m
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: x
+    value: [false]
+    datatype: list
+    dependency: null
+  -
+    name: b
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: -unbound-random
+    value: [false] # Need to update all values
+    datatype: list
+    dependency: null
+  -
+    name: -dump-input-buffers
+    value: [false] # Need to update all values
+    datatype: list
+    dependency: null
+  
+  -
+    name: v
+    value: ["v","vv","vvv"]
+    datatype: list
+    dependency: null
+  
+  -
+    name: h
+    value: [false]
+    datatype: list
+    dependency: null
+
+
+ qaic-api-test / qaic-api-test-cli-automation.json
+
+{
+    "runGroup": [   
+        {
+            "frequency": 12.5,
+            "input_files": [
+                "/home/qraniumtest/secure_auto_models/GM/highway_pkg/TopViewOD/GM_HighwayPkg_TopViewOD_0.6.0/coords.raw",
+                "/home/qraniumtest/secure_auto_models/GM/highway_pkg/TopViewOD/GM_HighwayPkg_TopViewOD_0.6.0/features.raw"
+            ],
+            "name": "GM_HighwayPkg_TopViewOD-onnx-multi-input-precision-fp16-ppp-aic-cores-1-bs-default-mos-default-ols-default-inst-1-cluster-default-dfs-yes",
+            "numActivations": 1,
+            "inferenceDuration" : 90,
+            "qid": 0,
+            "programId": 1,
+            "qpcPath": "/home/qraniumtest/binaries/GM_HighwayPkg_TopViewOD/onnx-multi-input-fp16-ppp-aic-cores-1-bs-def-mos-def-ols-def-inst-1-clust-def-dfs-yes",
+            "setSize": 1
+        },
+        {
+            "frequency": 12.5,
+            "input_files": [
+                "/home/qraniumtest/model_zoo/model-inputs/inputs/416x416/batch_size_1/input_416_416.raw"
+            ],
+            "name": "yolov5s_with_abp_qnms-onnx-416x416-precision-int8-ppp-default-cores-1-bs-1-mos-default-ols-4-inst-14-cluster-default-dfs-no",
+            "numActivations": 1,
+            "inferenceDuration" : 90,
+            "qid": 0,
+            "programId": 2,
+            "qpcPath": "/home/qraniumtest/binaries/yolov5s_with_abp_qnms/onnx-416x416-int8-ppp-def-cores-1-bs-1-mos-def-ols-4-inst-14-clust-def-dfs-no",
+            "setSize": 1
+        }
+    ]
+}
+
+
+
+qaic-exec / args_config.yaml
+
+#As of now we have 19 cli options 
+# 3 different framework models have been used(ONXX,Tensorflow,Caffe)
+- options:
+  - 
+    name: model
+    value : ['/local/mnt/workspace/qms/models/EfficientDet/with_ABP_NMS/efficientdet-d0.onnx',
+    "/local/mnt/workspace/qms/models/yolov4_w_nms/pongBot_WithNMS.pb",
+    "/local/mnt/workspace/qms/models/inception18"]
+    dataType : path
+    dependency: null
+  -
+    name: aic-num-cores
+    value : [1,2]
+    dataType : list
+    dependency: null  
+
+  - 
+    name: batchsize
+    value : 1
+    dataType : numeric
+    dependency: null  
+  - 
+    name: mos
+    value : 1
+    dataType : numeric
+    dependency: null  
+
+  - 
+    name: ols
+    value : 1
+    dataType : numeric
+    dependency: null  
+    
+  - 
+    name: aic-binary-dir
+    value : ['/local/mnt/workspace/cat/compiled_model/']
+    dataType : path
+    dependency: null 
+
+  - 
+    name: aic-hw
+    value : [true]
+    dataType : list
+    dependency: null 
+
+  - 
+    name: aic-hw-version
+    value : 2.0
+    dataType : list
+    dependency: null 
+
+  - 
+    name: convert-to-fp16
+    value : [true,false]
+    dataType : list
+    dependency: null 
+
+  - 
+    name: version-extended
+    value : [true,false]
+    dataType : list
+    dependency: null 
+
+  - 
+    name: aic-perf-warnings
+    value : [true,false]
+    dataType : list
+    dependency: null 
+
+  - 
+    name: aic-perf-metrics 
+    value : [true,false]
+    dataType : list
+    dependency: null 
+
+  - 
+    name: v,-vv,-vvv
+    value : ["vvv","vv",'v']
+    dataType : list
+    dependency: null 
+
+  - 
+    name: compile-only
+    value : [true,false]
+    dataType : list
+    dependency: null 
+
+  -
+    name: output-node-name
+    value: ["Identity",""]
+    dataType: list
+    dependency: null
+
+  -
+    name: aic-profiling-format
+    value: ["json","ascii"]
+    dataType: list
+    dependency: null
+  
+  -
+    name: stats-level
+    value: [70]
+    dataType: list
+    dependency : null
+  
+  -
+    name: model-input
+    value: ["data,float,[1,3,128,128]",""]
+    dataType: list
+    dependency: null
+
+qaic-exec / args_config_copy.yaml
+
+options:
+-   name: model
+    value:
+    - /local/mnt/workspace/qms/models/EfficientDet/with_ABP_NMS/efficientdet-d0.onnx
+    - /local/mnt/workspace/qms/models/yolov4_w_nms/pongBot_WithNMS.pb
+    - /local/mnt/workspace/qms/models/inception18
+    dataType: path
+    dependency: null
+-   name: aic-num-cores
+    value:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    dataType: list
+    dependency: null
+-   name: batchsize
+    value:
+    - 1
+    - 2
+    - 3
+    - 4
+    dataType: list
+    dependency: null
+-   name: mos
+    value: 1
+    dataType: numeric
+    dependency: null
+-   name: ols
+    value: 1
+    dataType: numeric
+    dependency: null
+-   name: aic-binary-dir
+    value:
+    - /local/mnt/workspace/cat/compiled_model/
+    dataType: path
+    dependency: null
+-   name: aic-hw
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: aic-hw-version
+    value: 2.0
+    dataType: list
+    dependency: null
+-   name: convert-to-fp16
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: version-extended
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: aic-perf-warnings
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: aic-perf-metrics
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: v,-vv,-vvv
+    value:
+    - -vvv
+    - -vv
+    - -v
+    dataType: list
+    dependency: null
+-   name: compile-only
+    value:
+    - false
+    dataType: list
+    dependency: null
+-   name: output-node-name
+    value:
+    - Identity
+    - ''
+    dataType: list
+    dependency: null
+-   name: aic-profiling-format
+    value:
+    - json
+    - ascii
+    dataType: list
+    dependency: null
+-   name: stats-level
+    value:
+    - 70
+    dataType: list
+    dependency: null
+-   name: model-input
+    value:
+    - data,float,[1,3,128,128]
+    - ''
+    dataType: list
+    dependency: null
+
+ qaic-exec / inputs_file_copy.yaml
+
+options:
+-   name: model
+    value:
+    - /local/mnt/workspace/qms/models/EfficientDet/with_ABP_NMS/efficientdet-d0.onnx
+    - /local/mnt/workspace/qms/models/yolov4_w_nms/pongBot_WithNMS.pb
+    - /local/mnt/workspace/qms/models/inception18
+    dataType: path
+    dependency: null
+-   name: aic-num-cores
+    value:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    dataType: list
+    dependency: null
+-   name: batchsize
+    value:
+    - 1
+    - 2
+    - 3
+    - 4
+    dataType: list
+    dependency: null
+-   name: mos
+    value: 1
+    dataType: numeric
+    dependency: null
+-   name: ols
+    value: 1
+    dataType: numeric
+    dependency: null
+-   name: aic-binary-dir
+    value:
+    - /local/mnt/workspace/cat/compiled_model/
+    dataType: path
+    dependency: null
+-   name: aic-hw
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: aic-hw-version
+    value: 2.0
+    dataType: list
+    dependency: null
+-   name: convert-to-fp16
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: version-extended
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: aic-perf-warnings
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: aic-perf-metrics
+    value:
+    - true
+    - false
+    dataType: list
+    dependency: null
+-   name: v,-vv,-vvv
+    value:
+    - -vvv
+    - -vv
+    - -v
+    dataType: list
+    dependency: null
+-   name: compile-only
+    value:
+    - false
+    dataType: list
+    dependency: null
+-   name: output-node-name
+    value:
+    - Identity
+    - ''
+    dataType: list
+    dependency: null
+-   name: aic-profiling-format
+    value:
+    - json
+    - ascii
+    dataType: list
+    dependency: null
+-   name: stats-level
+    value:
+    - 70
+    dataType: list
+    dependency: null
+-   name: model-input
+    value:
+    - data,float,[1,3,128,128]
+    - ''
+    dataType: list
+    dependency: null
+
+
+ qaic-runner / args_config.yaml
+
+- baseSDKversion: 
+  -
+    Platform: 1.10.0.44
+    Apps: 1.10.0.44
+- options:
+  -
+    name: d
+    value: ['0']
+    datatype: int
+    dependency: null
+  
+  
+  -
+    name: t
+    value: ['/home/qraniumtest/binaries/GM_HighwayPkg_TopViewOD/onnx-multi-input-fp16-ppp-aic-cores-1-bs-def-mos-def-ols-def-inst-1-clust-def-dfs-yes/','/home/qraniumtest/binaries/yolov5s_with_abp_qnms/onnx-416x416-int8-ppp-def-cores-1-bs-1-mos-def-ols-4-inst-14-clust-def-dfs-no']
+    datatype: list
+    dependency: null
+  -
+    name: i
+    value: ['/home/qraniumtest/secure_auto_models/GM/highway_pkg/TopViewOD/GM_HighwayPkg_TopViewOD_0.6.0/list.txt',false,'/home/qraniumtest/model_zoo/model-inputs/inputs/416x416/batch_size_1/file-list.txt']
+    datatype: list
+    dependency: null
+  
+  -
+    name: n
+    value: [false] # To Do : Need to write condition in automation either to use n or time option
+    datatype: list
+    dependency: null
+  -
+    name: time
+    value: 10 # Need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: l
+    value: 1 #need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: r
+    value: 1000 #need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: s
+    value: 1 #need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: a
+    value: [1] # Need to populate all the values
+    datatype: list
+    dependency: null
+  
+  -
+    name: -aic-profiling-start-iter
+    value: [false] # Need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: -aic-profiling-start-delay
+    value: [2500,false] # Need to populate all the values
+    datatype: int
+    dependency: null
+  -
+    name: -aic-profiling-num-samples
+    value: [5,false] # Need to populate all the values
+    datatype: int
+    dependency: null
+  -
+    name: -aic-profiling-format
+    value: [false]
+    datatype: list
+    dependency: null
+  -
+    name: -aic-profiling-type
+    value: ['stats','trace','latency',false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: -aic-profiling-duration
+    value: [false]
+    datatype: int
+    dependency: null
+  -
+    name: -aic-profiling-sampling-rate
+    value: [false]
+    datatype: list
+    dependency: null 
+  
+  -
+    name: -aic-profiling-reporting-rate
+    value: [false]
+    datatype: list
+    dependency: null
+  
+  -
+    name: -aic-profiling-out-dir
+    value: [config.aic_profiling_out_dir,false]
+    datatype: string
+    dependency: null
+  -
+    name: -write-output-start-iter
+    value: [false] # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: -write-output-num-samples
+    value: [false] # Need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: -write-output-dir
+    value: [false]
+    datatype: string
+    depedency: null
+  
+  -
+    name: -aic-batch-input-directory
+    value: [false] # Need to handel dependency with -i option
+    datatype: list
+    dependency: null
+  
+  -
+    name: -aic-batch-input-file-list
+    value: [false] # Need to handel dependency with -i option
+    datatype: list
+    dependency: null
+  
+  - 
+    name: -aic-batch-max-memory
+    value: 5000 # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: -submit-timeout
+    value: 5000 # Need to update all values
+    datatype: int
+    dependency: null
+  -
+    name: -submit-retry-count
+    value: 5 # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: -unbound-random
+    value: [false] # Need to update all values
+    datatype: list
+    dependency: null
+  -
+    name: -dump-input-buffers
+    value: [false] # Need to update all values
+    datatype: list
+    dependency: null
+  -
+    name: S
+    value: 10 # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: T
+    value: 4 # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: -auto-batch-input
+    value: [false] # Need to update all values
+    datatype: int
+    dependency: null
+  
+  -
+    name: p
+    value: ["on","off"]
+    datatype: list
+    dependency: null
+  
+  -
+    name: v
+    value: ["v","vv","vvv"]
+    datatype: list
+    dependency: null
+  
+  -
+    name: h
+    value: [false]
+    datatype: list
+    dependency: null
+  -
+    name: -aic-lib-path
+    value: [false]
+    datatype: list
+    dependency: null
+
+
+///// 
+
+ utils /
+ utils /yaml2csv.py
+
+from subprocess import Popen, PIPE
+import os
+import time
+import random
+import logging
+import datetime
+import pandas as pd
+import config.config as config
+def generate_command(sanity_configs, config_cli_file, command_passed, cmd_execution_logs):
+    """Generateing the combinations and commands from values to options in args yaml
+    Args:
+        sanity_configs (str): number of sanity configs to execute
+        config_cli_file (dict): cli options and respective values
+        command_passed (str): tool intial command
+        cmd_execution_logs (str): command execution logs path
+    """
+    logging.basicConfig(filename=os.path.join(config.log_dir, datetime.datetime.now().strftime(
+        'cat_app_%H_%M_%d_%m_%Y.log')), filemode='w', format='%(levelname)s - %(message)s', level=logging.DEBUG)
+    documents = config_cli_file
+    df = pd.DataFrame.from_records(documents)
+    df = df.T
+    df.columns = df.iloc[0]
+    df = df.iloc[1:, :]
+    list_type_colums = [options['name'] for options in documents for key,
+                        value in options.items() if isinstance(value, list)]
+    for a in list_type_colums:
+        df = df.explode(a)
+    df_1 = df.drop_duplicates()
+    df_1.drop(df_1.tail(2).index, inplace=True)
+    command_list_temp = df_1.to_dict('records')
+    logging.debug("-"*75)
+    logging.debug("Total number of combinations with current config {}".format(
+        len(command_list_temp)))
+    logging.debug("-"*75)
+    results_dict = []
+    print("Total number of combinations with current config {}".format(
+        len(command_list_temp)))
+    if sanity_configs != 0:
+        configs_to_run = sanity_configs
+    else:
+        configs_to_run = len(command_list_temp)
+    for element in random.sample(command_list_temp, int(configs_to_run)):
+        index = command_list_temp.index(element)
+        print(index)
+        logging.debug(f"Index randomly picked is {index}")
+        # Commands getting appened to avoid that
+        command = ''
+        command = command_passed
+        for key, value in element.items():
+            if key == 'v,-vv,-vvv' or key == 'v':
+                command += '-'+value + ' '
+            elif key == 'i' and str(value) != 'False':
+                input_dir = value.split(value.split('/')[-1])[0]
+                f = open(value, 'r')
+                final_list = [os.path.join(value.split(value.split(
+                    '/')[-1])[0], file) for file in f.readlines()[0].rstrip().split(',')]
+                for file in final_list:
+                    command += '-'+key + ' ' + file + ' '
+            elif key == '-aic-profiling-out-dir' and str(value) != 'False':
+                if '--aic-profiling-out-dir' in command:
+                    continue
+                value = eval(value).format(index)
+                os.makedirs(value, exist_ok=True)
+                command += '-'+key + ' ' + str(value) + ' '
+                element[key] = value
+            elif key == '-aic-profiling-type' and str(value) != 'False':
+                command += '-'+key + ' '+str(value) + ' '
+                if str(element['-aic-profiling-out-dir']) == 'False':
+                    profiling_out_dir = config.aic_profiling_out_dir.format(
+                        index)
+                    os.makedirs(profiling_out_dir, exist_ok=True)
+                    command += '--aic-profiling-out-dir' + ' ' + profiling_out_dir + ' '
+                    element['-aic-profiling-out-dir'] = profiling_out_dir
+            elif key == 'j' and str(value) != 'False':
+                command += '-'+key + ' '+eval(str(value)) + ' '
+            else:
+                if str(value) == 'True':
+                    command += '-'+key + ' '
+                elif str(value) == 'False':
+                    continue
+                elif not value:
+                    continue
+                else:
+                    if key == "aic-binary-dir":
+                        value += str(index)
+                    command += '-'+key + ' ' + str(value) + ' '
+        logging.debug("Command Generated:")
+        logging.debug(command)
+        print(command)
+        start_time = time.time()
+        log = open(cmd_execution_logs.format(index), 'wb')
+        p = Popen(command, shell=True, stdin=PIPE, stdout=log,
+                  stderr=PIPE, preexec_fn=os.setsid)
+        result, err = p.communicate()
+        end_time = time.time()
+        final_res = (end_time - start_time) / 60
+        logging.debug(f"Execution time for this command {final_res}")
+        element['Execution_time'] = final_res
+        if err and p.returncode:
+            err_msg = err.decode(encoding="ISO-8859-1").strip('=')
+            element['status'] = 'Fail'
+            logging.debug("Error Mesage :")
+            logging.debug(err_msg)
+            element['error'] = err_msg.strip('-')
+        else:
+            element['status'] = 'Pass'
+        element['log_file'] = cmd_execution_logs.format(index)
+        element_temp = {key.strip('-'): value for key,
+                        value in element.items()}
+        results_dict.append(element_temp)
+    result_df = pd.DataFrame(results_dict)
+    result_df.to_csv(os.path.join(config.results_dir,
+                     datetime.datetime.now().strftime('results.csv')), index=False)
+
+
+
+
+  /////
+
+  cli_parser.py
+
+'''=============================================================================
+Copyright (c) 2019-2022 Qualcomm Technologies, Inc.
+All Rights Reserved.
+Confidential and Proprietary - Qualcomm Technologies, Inc.
+All data and information contained in or disclosed by this document are
+confidential and proprietary information of Qualcomm Technologies, Inc., and
+all rights therein are expressly reserved. By accepting this material, the
+recipient agrees that this material and the information contained therein
+are held in confidence and in trust and will not be used, copied, reproduced
+in whole or in part, nor its contents revealed in any manner to others
+without the express written permission of Qualcomm Technologies, Inc.
+============================================================================='''
+"""
+Input for CLI automation tool is application names like qaic-runner,qaic-api-test below sample command:
+
+Command execution: python3 cli_parser.py -t <toolname>
+
+This script will parse the help command and generate different commands with options available in CLI tool.
+
+"""
+import re
+from subprocess import Popen, PIPE
+import os
+import sys
+import warnings
+import argparse
+import datetime
+import shutil
+import json
+import yaml
+import pandas as pd
+import utils.yaml2csv as command_generation
+import config.config as config
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+
+def read_help_txt_data(file):
+    with open(file, encoding='utf-8') as f:
+        help_data = f.readlines()
+    return help_data
+
+
+def get_help_txt_data(file):
+    """
+    Will Parse the help command ouput text file and returns dict with option and info
+    Args:
+        file (str): File contatining tool help command.
+    Returns:
+        dict: dictonary containg options as keys and value as option info
+    """
+    finaldict = {}
+    with open(file, encoding='utf-8') as f:
+        for line in f:
+            if 'Usage:' in line:
+                continue
+            if line.replace("  ", "").startswith('-'):
+                option = line.strip().split()[0].split('=')[0]
+                final_info = ' '.join(line.strip().split()[1:])
+                finaldict[option.strip(',')] = final_info
+    return finaldict
+    # this code will be uncommented once support for qaic-exec is added
+    '''diff_parse_options = ["-enable-debug","-combine-inputs","combine-outputs","-use-producer-dma"]
+    #not_valid_options = ['NOTE:', 'To']
+    print(data)
+    for ff in data[1:]:
+        print(ff)
+        option = ff.strip().split()[0].split('=')[0]
+        if not option.startswith('-'):
+            continue
+        if '-model=<path>' in ff:
+           model = ff.strip().split()[1].split("=")[0]
+           final_info = ' '.join(ff.strip().split()[2:])
+           finaldict[model] = final_info
+           continue
+        elif ff in diff_parse_options:
+            option = option.rstrip('[')
+            info = ff.strip().split()[1:]
+            final_info = ' '.join(ff.strip().split()[1:])
+            finaldict[option] = final_info
+            continue
+        elif "-enable-debug" in ff: #-combine-inputs[ #-combine-outputs[ #-use-producer-dma[
+            option = option.rstrip('[')
+            info = ff.strip().split()[1:]
+            final_info = ' '.join(ff.strip().split()[1:])
+            finaldict[option] = final_info
+            continue
+        elif "-combine-inputs" in ff:
+            option = option.rstrip('[')
+            info = ff.strip().split()[1:]
+            final_info = ' '.join(ff.strip().split()[1:])
+            # print(option)
+            # print(final_info);print()
+            finaldict[option] = final_info
+            continue
+
+        elif "-combine-outputs" in ff:
+            option = option.rstrip('[')
+            info = ff.strip().split()[1:]
+            final_info = ' '.join(ff.strip().split()[1:])
+            finaldict[option] = final_info
+            continue
+
+        elif "-use-producer-dma" in ff:
+            option = option.rstrip('[')
+            info = ff.strip().split()[1:]
+            final_info = ' '.join(ff.strip().split()[1:])
+            finaldict[option] = final_info
+            continue
+        # info = ff.strip().split()[1:]
+        # final_info = ' '.join(ff.strip().split()[1:])
+        # # if option in not_valid_options:
+        # #     continue
+        # adict = {"option": option, "info":final_info}
+        # finaldict[option.strip(',')] = final_info
+    #return finaldict'''
+
+
+def read_usage_txt_data(file):
+    """Read usage data of file
+
+    Args:
+        file (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    with open(file, encoding='utf-8') as nf:
+        use_data = nf.readlines()
+    return use_data
+
+
+def get_usage_txt_data(data):
+    finaladict = {}
+    headers_comp = re.compile("^\s\s-.*")
+    space_check_comp = re.compile("\s{4}.*")
+    header = None
+    for f in data:
+        f = f.lstrip(".")
+        if headers_comp.search(f):
+            if "Usage:" in f:
+                continue
+            dataa = f.split()
+            header = dataa[0]
+            if header == "-m=<path>,":
+                header = dataa[1].split('=')[0].rstrip(',')
+            elif header == "-h,":
+                header = dataa[1].rstrip(",")
+            elif header == '-version,':
+                header = dataa[1].rstrip(",")
+            elif "=" in header:
+                header = header.split("=")[0]
+                if "[" in header:
+                    header = header.rstrip("[")
+            value_data = " ".join(dataa[1:])
+            finaladict[header] = [value_data]
+        else:
+            if space_check_comp.search(f):
+                if header:
+                    finaladict[header].append(f.strip())
+    return finaladict
+
+
+def message_help_txt_data(finaldict, tool_output_files_dir):
+    """ Formats help data into json file
+
+    Args:
+        finaldict (dict): Help data in dictonry format
+        tool_output_files_dir (str): json file path
+    Returns:
+        dict: Formated dict data
+    """
+    final_help_data = {}
+    for k, v in finaldict.items():
+        final_value = v.strip()
+        if "--compiler-help" in v:
+            final_value = v.lstrip("--compiler-help").strip()
+        elif "--version" in v:
+            k = '--version'
+            final_value = v.lstrip("--version").strip()
+        elif "-help, --help" in v:
+            k = "-help"
+            final_value = v.lstrip("-help, --help").strip()
+        if "-compiler-help," in k:
+            k = k.rstrip(",")
+        final_help_data[k] = final_value
+    finaldata = list()
+    finaldata.append(final_help_data)
+    with open(os.path.join(tool_output_files_dir, config.help_commands_json_file), 'w', encoding='utf-8') as zf:
+        json.dump(finaldata, zf, indent=4)
+    return final_help_data
+
+
+def massage_usage_txt_data(headers_data):
+    """Parsing the usage text data as of now this method is not being used
+
+    Args:
+        headers_data (_type_): _description_
+    """
+    final_dict = {}
+    for k, v in headers_data.items():
+        final_value = " ".join(v)
+        if "-model=<path>" in v[0]:
+            final_value = " ".join(v).lstrip("-model=<path>").strip()
+        elif "--compiler-help" in v[0]:
+            k = k.rstrip(",")
+            final_value = " ".join(v).lstrip("--compiler-help").strip()
+        elif "--version" in v[0]:
+            final_value = " ".join(v).lstrip("--version").strip()
+        elif "-help, --help" in v[0]:
+            final_value = " ".join(v).lstrip("-help, --help").strip()
+        final_dict[k] = final_value
+    finaldata = list()
+    finaldata.append(final_dict)
+    with open(config.usage_commands_json_file, 'w', encoding='utf-8') as zf:
+        json.dump(finaldata, zf, indent=4)
+
+    return
+
+
+def combine_two_jsons(tool, tool_output_files_dir):
+    """ Combining Usage and help data if both options are available
+
+    Args:
+        tool (str): Tool for which options diff is being validated.
+        tool_output_files_dir (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    with open(os.path.join(tool_output_files_dir, config.help_commands_json_file), 'r') as handle:
+        parsed_help = json.load(handle)
+        df1 = pd.DataFrame()
+    for option in parsed_help[0]:
+        help_key = option
+        help_value = parsed_help[0][option]
+        help_df = pd.DataFrame([{'option': help_key, 'info': help_value}])
+        df1 = df1.append(help_df)
+    final_df = df1
+    lastdf = final_df.to_dict('records')
+    print("Total number of CLI options available in {} {}".format(tool, len(lastdf)))
+    with open(os.path.join(tool_output_files_dir, config.help_usage_merged_json), 'w') as ff:
+        json.dump(lastdf, ff, indent=4)
+    return lastdf
+    # this code will be uncommented once support for qaic-exec is added
+    """if tool == 'qaic-exec':
+        with open(config.usage_commands_json_file, 'r') as handle:
+            parsed_usage = json.load(handle)
+
+        missed_keys = set(parsed_help[0].keys() - parsed_usage[0].keys())
+
+        print("The options difference b/w help and usage is {}".format(missed_keys))"""
+    """df2 = pd.DataFrame()
+    if tool == 'qaic-exec':
+        for f in parsed_usage[0]:
+            usage_key = f
+            usage_value = parsed_usage[0][f]
+            usage_df = pd.DataFrame([{'option': usage_key,  'usage': usage_value}])
+            df2 = df2.append(usage_df)
+        final_df = pd.merge(df1, df2, on='option')"""
+
+
+def read_config_cli_file(yaml_file):
+    """ Reading YAML file
+
+    Args:
+        yaml_file (str): Yaml file path
+
+    Returns:
+        dict: Yaml file contents in dict format
+    """
+    try:
+        with open(yaml_file) as file:
+            documents = yaml.full_load(file)
+        return documents[1]['options']
+    except FileNotFoundError:
+        print("Args Yaml file is not available")
+        sys.exit()
+    except Exception as e:
+        print("File while reading YAMl file {} and exception is {}".format(yaml_file,e))
+        sys.exit()
+
+
+def find_options_diff(tool_output_files_dir, tool):
+    """Finding the option diff between options available in CLI-tool and Current SDK
+
+    Args:
+        parsed_final_data (_type_): _description_
+        config_cli_file (_type_): _description_
+        tool (_type_): _description_
+    """
+    try:
+        with open(os.path.join(tool_output_files_dir, config.help_commands_json_file), 'r') as handle:
+            parsed_help = json.load(handle)
+    except FileNotFoundError:
+        print("Help command ouput json file is not available")
+        sys.exit()
+    except Exception:
+        print(" Error while reading Help command output json file")
+        sys.exit()
+    parsed_final_data = parsed_help[0]
+    parsed_final_data_options = [
+        key.strip('-').strip('--') for key in parsed_final_data.keys()]
+    config_cli_file_options = [option['name'].strip(
+        '-').strip('--') for option in read_config_cli_file(config.tool_args_config_yaml.format(tool))]
+    missed_keys = (set(parsed_final_data_options)-set(config_cli_file_options))
+    print("Total number of CLI options available in {} {}".format(
+        tool, len(set(parsed_final_data_options))))
+    print("Total Number of options in args config yaml {}".format(
+        len(set(config_cli_file_options))))
+    print("-"*50)
+    if len(missed_keys):
+        print("Missed options in Config cli Yaml")
+        print("-"*50)
+        print(missed_keys)
+    else:
+        print("All options are available in args_config Yaml")
+        print("-"*50)
+    dict = {'Tool_Name': tool, 'CLI_options_in_SDK': len(set(parsed_final_data_options)), 'CLI_options_available_in_tool': len(
+        set(config_cli_file_options)), 'Missing_Options': missed_keys}
+    diff_df = pd.DataFrame([dict])
+    diff_df.to_csv(os.path.join(config.results_dir, datetime.datetime.now(
+    ).strftime('options_diff.csv')), index=False)
+
+
+def validate_cli(tool, sanity_configs):
+    """
+    This method will execute help command and usage command(in case of qaic-exec)
+    and call methods for finding diff b/w help and usage, validating tools yaml file and usage 
+    and build commands ,execute
+
+    Args:
+        tool (string): Tool to validate.
+    """
+    tool_output_files_dir = os.path.join(config.output_files_dir, tool)
+    os.makedirs(tool_output_files_dir, exist_ok=True)
+    help_commands_text = open(os.path.join(
+        tool_output_files_dir, config.help_commands_text_file), 'wb')
+    # Executing help command and writing output into text file
+    p = Popen(config.help_command.format(tool), shell=True, stdin=PIPE,
+              stdout=help_commands_text, stderr=PIPE, preexec_fn=os.setsid)
+    help_result, help_err = p.communicate()
+    #if help command execution failed the script will exit
+    if help_err and p.returncode:
+        sys.stderr.write("{} help command execution failed".format(tool))
+        exit(1)
+    # Passing help data text file for parsing option available in tool and writing into json file
+    headers_data = get_help_txt_data(os.path.join(
+        tool_output_files_dir, config.help_commands_text_file))
+    final_data = message_help_txt_data(headers_data, tool_output_files_dir)
+    #Copying args yaml into log directory
+    shutil.copy(config.tool_args_config_yaml.format(tool), tool_output_files_dir)
+    # Diff between opions available in tool and in current SDK
+    options_diff = find_options_diff(tool_output_files_dir, tool)
+    #Generating commands with options and values available in tool
+    command_generation.generate_command(sanity_configs, read_config_cli_file(config.tool_args_config_yaml.format(
+        tool)), config.execution_command.format(tool), eval('config'+'.{}_execution_logs'.format(tool.replace('-', '_'))))
+    # this code will be uncommented once support for qaic-exec is added
+    '''if tool == 'qaic-exec':
+        p = Popen(config.exec_help_command, shell=True, stdin=PIPE, stdout=help_commands_text, stderr=PIPE, preexec_fn=os.setsid)
+        help_result,help_err = p.communicate()
+        if help_err and p.returncode:
+            sys.stderr.write("Qaic-Exec Help Command Execution failed")
+            exit(1)
+        usage_commands_text = open(config.usage_commands_text_file,'wb')
+        p = Popen(config.exec_usage_command, shell=True, stdin=PIPE, stdout=usage_commands_text, stderr=PIPE, preexec_fn=os.setsid)  
+        usage_result,usage_err = p.communicate()
+        if usage_err and p.returncode:
+            sys.stderr.write("Qaic-Exec usage Command Execution failed")
+            exit(1)
+        read_txt_data = read_usage_txt_data(config.usage_commands_text_file)
+        headers_data = get_usage_txt_data(read_txt_data)
+        finaldata = massage_usage_txt_data(headers_data)
+        config_cli_file = read_config_cli_file(config.exec_args_config_yaml)
+        execution_log = config.exec_compilation_log
+        command = config.exec_command'''
+
+
+def main():
+    """This is main method for this tool. This method will be called for 
+    getting args from user and intiating the other API's to test args of different CLI tools."""
+
+    if sys.version_info < (3, 8, 0):
+        sys.stderr.write("You need python 3.8 or later to run this script\n")
+        exit(1)
+    parser = argparse.ArgumentParser(description='This script is developed for validating the arguments of CLI tools '
+                                     'qaic-exec,qaic-runner')
+    parser.add_argument(
+        '-t', '--tool', help="Tool to test. Usage -t qaic-exec,-t qaic-runner, -t qaic-api-test", required=True)
+    parser.add_argument(
+        '-s', '--sanity', help="Instead of running for all configs user can provide number of configs to run for sanity testing of tool", required=False, default=0)
+
+    args = parser.parse_args()
+    validate_cli(tool=args.tool, sanity_configs=args.sanity)
+
+
+if __name__ == '__main__':
+    main()
+
+
+/////
+
+ ui_app.py
+
+from datetime import datetime
+import pandas as pd
+import sys, os
+import streamlit as st
+import yaml
+from ast import literal_eval
+import argparse
+import logging
+
+def convert_yaml_to_df(yaml_file):
+
+    """
+    Converting Yaml file to DataFrame
+    """
+    with open(yaml_file,'r') as f:
+        documents = yaml.load(f,Loader=yaml.FullLoader)
+    file = "/local/mnt/workspace/cat/tools/qaic-exec/inputs_file_copy.yaml"
+    with open(file,'w') as f:
+        yaml.dump(documents, f, indent=4, default_flow_style=False, sort_keys=False)
+    final_df = pd.DataFrame() 
+    with open(yaml_file, 'r') as fp:
+        data = yaml.full_load(fp)
+        for k,v in data.items():
+            for f_data in v:
+                df = pd.DataFrame([f_data])
+                final_df = final_df.append(df);print()
+    final_df['value'] = final_df['value'].astype(str)
+    final_df = final_df.reset_index(drop=True)
+    # st.dataframe(final_df)
+    return final_df
+
+def add_side_bar(final_df):
+
+    """
+    Adding unique names and remaining columns to a sidebar
+    """
+    
+    with st.sidebar:
+        names = final_df.name.values.tolist()
+        name = st.selectbox("The different names are:",tuple(names))
+        # st.write('**You selected:**', name )
+
+        col_change = st.selectbox("Choose a Column to Change: ", ('value', 'dataType', 'dependency'))
+        # st.write(f"**You selected:** {col_change} Column")
+
+        st.write("Enter a Value:")
+        form = st.form(key='form1', clear_on_submit=False)
+        new_data = form.text_input(label="value")
+        
+        button_press = form.form_submit_button(label='Submit')
+        print(button_press)
+
+    return button_press, name, col_change, new_data
+
+def update_df(button_press, name, col_change, new_data, final_df):
+
+    """
+    Based on the User's input we are updating the DataFrame Column and showing the Updated DataFrame in WebPage
+    """
+
+    if button_press:
+        final_df.loc[final_df['name'] == name, col_change] = [new_data]
+        final_df['value'] = final_df['value'].astype(str)
+    st.dataframe(final_df)
+    return final_df
+    
+def convert_df_to_yaml(final_df,yaml_file):
+    
+    """
+    Converting DataFrame to yaml file
+    """
+
+    df1 = final_df.copy()
+    df1.value = df1.value.apply(literal_eval)
+    f_data = df1.to_dict(orient="records")
+    adict = {}
+    adict['options'] = f_data
+    print(adict);print()
+
+    with open(yaml_file, 'w') as file:
+        documents = yaml.dump(adict, file, indent=4, default_flow_style=False, sort_keys=False)
+    file.close()
+    return
+
+def main(yaml_file):
+    df = convert_yaml_to_df(yaml_file)
+    side_bar_button_press, name, col_change, new_data = add_side_bar(df)
+    updated_df = update_df(side_bar_button_press, name, col_change, new_data, df)
+    yaml_data = convert_df_to_yaml(updated_df,yaml_file)
+  
+if __name__ == '__main__':
+    inp_yaml_file = sys.argv[1]
+    main(inp_yaml_file)
+
+////
+
+                               
+  
+
+
+
+
