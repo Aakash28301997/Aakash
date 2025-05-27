@@ -1,0 +1,502 @@
+(venv_py310) root@b956283726c7:~# ls /home/qraniumtest/model_zoo//internal/DistillBert/generatedModels/ONNX/DistillBert_Flexible_BS_SL.onnx
+/home/qraniumtest/model_zoo//internal/DistillBert/generatedModels/ONNX/DistillBert_Flexible_BS_SL.onnx
+
+qairt-converter:
+
+(venv_py310) root@b956283726c7:~# /qnn_sdk/bin/x86_64-linux-clang/qairt-converter --input_network /home/qraniumtest/model_zoo/internal/DistillBert/generatedModels/ONNX/DistillBert_Flexible_BS_SL.onnx --output_path /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/model.dlc --quantization_overrides /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/distilbert_node_precision_file.json  --float_bias_bitwidth 32 --preserve_io_datatype --onnx_define_symbol batch_size 8 --onnx_define_symbol seq_length 128 --onnx_skip_simplification --onnx_defer_loading
+
+2025-05-27 11:20:36,688 - 275 - INFO - INFO_INITIALIZATION_SUCCESS:
+2025-05-27 11:20:36,688 - 280 - WARNING - --desired_input_shape and -d are deprecated. Use --source_model_input_shape or -s for achieving this functionality
+2025-05-27 11:20:36,688 - 275 - INFO - Processing user provided quantization encodings:
+2025-05-27 11:20:37,503 - 275 - INFO - Input shape info
+2025-05-27 11:20:37,770 - 280 - WARNING - WARNING_CAST_TYPE: Only numerical type cast is supported. The op: Cast_3 will be interpreted at conversion time
+2025-05-27 11:20:37,804 - 280 - WARNING - WARNING_CAST_TYPE: Only numerical type cast is supported. The op: Cast_59 will be interpreted at conversion time
+2025-05-27 11:20:37,863 - 280 - WARNING - WARNING_CAST_TYPE: Only numerical type cast is supported. The op: Cast_141 will be interpreted at conversion time
+2025-05-27 11:20:37,923 - 280 - WARNING - WARNING_CAST_TYPE: Only numerical type cast is supported. The op: Cast_223 will be interpreted at conversion time
+2025-05-27 11:20:37,981 - 280 - WARNING - WARNING_CAST_TYPE: Only numerical type cast is supported. The op: Cast_305 will be interpreted at conversion time
+2025-05-27 11:20:38,040 - 280 - WARNING - WARNING_CAST_TYPE: Only numerical type cast is supported. The op: Cast_387 will be interpreted at conversion time
+2025-05-27 11:20:38,098 - 280 - WARNING - WARNING_CAST_TYPE: Only numerical type cast is supported. The op: Cast_469 will be interpreted at conversion time
+2025-05-27 11:20:38,209 - 280 - WARNING - Unused Input nodes found: []
+2025-05-27 11:20:38,252 - 275 - INFO - Processed 26 quantization encodings
+2025-05-27 11:20:39,636 - 280 - WARNING - Unused Input nodes found: []
+2025-05-27 11:20:39,637 - 275 - INFO - INFO_INITIALIZATION_SUCCESS:
+IrQuantizer: Param Quantizer should be set to symmetric for 32 bit biases. Will ignore param quantizer option: tf for biases
+[ WARNING ] Following OPs fallback to float:
+_layernorm_4, MatMul_36, MatMul_30, MatMul_118, Gather_10, MatMul_92, MatMul_41, MatMul_232, MatMul_68, _layernorm_1, MatMul_369, MatMul_396, _layernorm_28, MatMul_410, MatMul_420, _layernorm_31, MatMul_440, MatMul_446, MatMul_451, MatMul_478, _layernorm_34, MatMul_492, MatMul_502, _layernorm_37, MatMul_516, MatMul_82, MatMul_112, _layernorm_10, MatMul_123, _layernorm_7, MatMul_150, MatMul_164, MatMul_174, _layernorm_13, MatMul_194, MatMul_200, MatMul_205, _layernorm_16, MatMul_246, MatMul_256, _layernorm_19, MatMul_276, MatMul_282, MatMul_287, MatMul_314, _layernorm_22, MatMul_328, MatMul_338, _layernorm_25, MatMul_358, MatMul_364.
+2025-05-27 11:20:40,448 - 275 - INFO - INFO_CONVERSION_SUCCESS: Conversion completed successfully
+2025-05-27 11:20:40,734 - 275 - INFO - INFO_WRITE_SUCCESS:
+
+qairt-quantizer:
+
+(venv_py310) root@b956283726c7:~# nano /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-
+1-inst-7-clust-def-dfs-no-nonmq-0/qnn_list.txt
+
+(venv_py310) root@b956283726c7:~# /qnn_sdk/bin/x86_64-linux-clang/qairt-quantizer --input_dlc /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/model.dlc --output_dlc /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/model_quantized.dlc  --preserve_io_datatype --use_native_input_files  --f
+loat_bitwidth 16 --input_list /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_list.txt   --act_quantizer_schema unsignedsymmetric --param_quantizer_schema unsignedsymmetric --target_backend AIC --float_bitwidth 16
+     0.1ms [  INFO ] Inferences will run in sync mode
+qnn-net-run log level is : QNN_LOG_LEVEL_INFO
+Processing inference input(s):
+input_ids -> /home/qraniumtest/model_zoo//model-inputs/inputs/distilBert/SL-128/batch_size_8/./input_0.raw
+input_mask -> /home/qraniumtest/model_zoo//model-inputs/inputs/distilBert/SL-128/batch_size_8/./mask_0.raw
+     0.3ms [  INFO ] Initializing logging in the backend. Callback: [0x7f8f7d728a70], Log Level: [3]
+     0.3ms [  INFO ] No BackendExtensions lib provided;initializing NetRunBackend Interface
+     0.2ms [  INFO ] [QNN_CPU] CpuBackend creation start
+     0.2ms [  INFO ] [QNN_CPU] CpuBackend creation end
+     0.5ms [WARNING] Unable to find a device with NetRunDeviceKeyDefault in Library NetRunBackendLibKeyDefault
+     0.5ms [WARNING] Profile Logger with name = defaultKey doesn't exist! Returning nullptr
+     0.2ms [  INFO ] [QNN_CPU] QnnContext create start
+     0.2ms [  INFO ] [QNN_CPU] QnnContext create end
+     1.1ms [  INFO ] Entering QuantizeRuntimeApp flow
+     1.1ms [WARNING] Profile Logger with name = defaultKey doesn't exist! Returning nullptr
+     0.9ms [  INFO ] [QNN_CPU] CpuGraph creation start
+     0.9ms [  INFO ] [QNN_CPU] CpuGraph creation end
+     0.9ms [  INFO ] [QNN_CPU] QnnGraph create end
+    36.0ms [WARNING] Output[0] has Datatype 0x32.
+
+    36.0ms [WARNING] Output[0] has Datatype 0x32.
+
+    44.9ms [WARNING] Output[0] has Datatype 0x32.
+
+    44.9ms [WARNING] Output[0] has Datatype 0x32.
+
+    57.1ms [WARNING] Output[0] has Datatype 0x32.
+
+    57.1ms [WARNING] Output[0] has Datatype 0x32.
+
+    69.8ms [WARNING] Output[0] has Datatype 0x32.
+
+    69.8ms [WARNING] Output[0] has Datatype 0x32.
+
+    80.3ms [WARNING] Output[0] has Datatype 0x32.
+
+    80.3ms [WARNING] Output[0] has Datatype 0x32.
+    96.2ms [  INFO ] [QNN_CPU] QnnGraph finalize start
+    96.6ms [  INFO ] [QNN_CPU] QnnGraph finalize end
+    96.8ms [  INFO ] [QNN_CPU] QnnGraph execute start
+  2130.1ms [  INFO ] [QNN_CPU] QnnGraph execute end
+  2129.3ms [  INFO ] cleaning up resources for input tensors
+  2129.3ms [  INFO ] cleaning up resources for output tensors
+[ WARNING ] Updating output activation dtype for tensor 127 of LayerNorm op _layernorm_1 from QNN_DATATYPE_UFIXED_POINT_8 to QNN_DATATYPE_FLOAT_16 since QNN_DATATYPE_UFIXED_POINT_8 is unsupported on  provided backend
+.
+.
+.
+.
+[ WARNING ] Tensor 114 has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 116 has changed the qInfo during quantizer. Initial
+ qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 190_reshape has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 204
+ has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 230 has changed the qInfo during quantizer. Initial qInfo type is 0, but
+2147483647 at last[ WARNING ] Tensor 304_reshape has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 318 has changed the qInfo
+ during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 344 has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WA
+RNING ] Tensor 418_reshape has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 432 has changed the qInfo during quantizer. Ini
+tial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 458 has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 532_res
+hape has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 546 has changed the qInfo during quantizer. Initial qInfo type is 0,
+but 2147483647 at last[ WARNING ] Tensor 572 has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 646_reshape has changed the q
+Info during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 660 has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last
+[ WARNING ] Tensor 686 has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 760_reshape has changed the qInfo during quantizer.
+ Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 72025-05-27 11:22:26,772 - 275 - INFO - Quantization completed successfully:
+74 has changed the qInfo during quantizer. Initial qInfo type is 0, but 2147483647 at last[ WARNING ] Tensor 800 has changed the qInfo during quantizer. Initial qInfo type is 0, bu
+t 2147483647 at last  2748.1ms [  INFO ] Freeing graphsInfo
+  2748.1ms [WARNING] Profile Logger with name = defaultKey doesn't exist! Returning nullptr
+  2749.0ms [  INFO ] [QNN_CPU] QnnContext Free start
+  2763.3ms [  INFO ] [QNN_CPU] QnnContext Free end
+  2762.9ms [WARNING] Profile Logger with name = defaultKey doesn't exist!
+  2763.8ms [  INFO ] [QNN_CPU] QnnBackend Free start
+  2763.8ms [  INFO ] [QNN_CPU] QnnBackend Free end
+2025-05-27 11:22:27,206 - 275 - INFO - Quantized Model saved at: /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def
+-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/model_quantized.dlc
+
+Context-binary-generator
+
+nano /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_aic_map.json
+
+nano /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_config.json
+
+/qnn_sdk/bin/x86_64-linux-clang/qnn-context-binary-generator --binary_file qnngraph.serialized --backend /qnn_sdk/lib/x86_64-linux-clang/libQnnAic.so --output_dir /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0 --config_file /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_config.json --log_level debug  --backend_binary /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/programqpc_dir/programqpc.bin --model /qnn_sdk/lib/x86_64-linux-clang/libQnnModelDlc.so --dlc_path /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/model_quantized.dlc
+
+
+
+
+ 11.4ms [ DEBUG ] Composing Op Div_376 of type ElementWiseBinary                                                                                                      [1894/1894]
+    11.4ms [ DEBUG ] Calling validateOpConfig() for Op Div_376 of type ElementWiseBinary
+    15.8ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicOpValidator.cpp[24]: validateOpConfig is called.
+    11.4ms [ DEBUG ] Tensor _602 has already been created, updating ID.
+    11.4ms [ DEBUG ] Calling createGraphTensor() with Graph Tensor _628
+    15.8ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[521]: AicGraph::addTensor is called.
+    15.8ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[220]: isQnnTensorValid is called.
+    11.4ms [ DEBUG ] Calling createGraphTensor() with Graph Tensor _629
+    15.8ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[521]: AicGraph::addTensor is called.
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[220]: isQnnTensorValid is called.
+    11.4ms [ DEBUG ] Calling addNode() with Op Div_376
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicGraph.cpp[260]: addNode is called.
+    11.4ms [ DEBUG ] Composing Op Transpose_377 of type Transpose
+    11.4ms [ DEBUG ] Calling validateOpConfig() for Op Transpose_377 of type Transpose
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicOpValidator.cpp[24]: validateOpConfig is called.
+    11.4ms [ DEBUG ] Tensor _614 has already been created, updating ID.
+    11.4ms [ DEBUG ] Calling createGraphTensor() with Graph Tensor _630
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[521]: AicGraph::addTensor is called.
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[220]: isQnnTensorValid is called.
+    11.5ms [ DEBUG ] Calling createGraphTensor() with Graph Tensor Transpose_377_perm
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[521]: AicGraph::addTensor is called.
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[220]: isQnnTensorValid is called.
+    11.5ms [ DEBUG ] Calling addNode() with Op Transpose_377
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicGraph.cpp[260]: addNode is called.
+    11.5ms [ DEBUG ] Composing Op MatMul_378 of type MatMul
+    11.5ms [ DEBUG ] Calling validateOpConfig() for Op MatMul_378 of type MatMul
+    15.9ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicOpValidator.cpp[24]: validateOpConfig is called.
+    11.5ms [ DEBUG ] Tensor _629 has already been created, updating ID.
+    11.5ms [ DEBUG ] Tensor _630 has already been created, updating ID.
+    11.5ms [ DEBUG ] Calling createGraphTensor() with Graph Tensor _631
+    16.0ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[521]: AicGraph::addTensor is called.
+    16.0ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicTensor.cpp[220]: isQnnTensorValid is called.
+    11.5ms [ DEBUG ] Calling addNode() with Op MatMul_378
+    16.0ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicGraph.cpp[260]: addNode is called.
+.
+.
+.
+.
+.
+14.8ms [ DEBUG ] Calling addNode() with Op QNN_DATATYPE_UFIXED_POINT_8_converted_output_end_logits_QNN_DATATYPE_FLOAT_32
+    19.3ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicGraph.cpp[260]: addNode is called.
+    14.9ms [ DEBUG ] Assigning graph metadata.
+    14.9ms [ DEBUG ] Freeing graphs
+    26.5ms [ DEBUG ] Entering copyGraphsInfo
+    26.5ms [ DEBUG ] Extracting graphsInfo for graph Idx: 0
+    26.5ms [ DEBUG ] Entering copyTensorsInfo
+    26.6ms [ DEBUG ] Returning from copyTensorsInfo
+    26.6ms [ DEBUG ] Entering copyTensorsInfo
+    26.6ms [ DEBUG ] Returning from copyTensorsInfo
+    26.6ms [ DEBUG ] Entering copyTensorsInfo
+    26.6ms [ DEBUG ] Returning from copyTensorsInfo
+    26.6ms [ DEBUG ] Returning from copyGraphsInfo
+    26.6ms [ DEBUG ] Returning from composeGraphs
+    26.6ms [ DEBUG ] Returning message 0x556d857ab0a0 to the pool. (Use: 0, Q: 1)
+    26.6ms [ DEBUG ] Returning from composeGraphsFromDlc
+    26.6ms [ DEBUG ] Returning from composeGraphs
+    26.6ms [ DEBUG ] Entering finalizeGraphs
+    26.6ms [ DEBUG ] Entering finalizeGraphs
+    26.6ms [ DEBUG ] Entering getQnnContextWrapper
+    26.6ms [ DEBUG ] Entering getBackendHandler
+    26.6ms [ DEBUG ] Entering getBackendLibHandler
+    26.6ms [ DEBUG ] Returning from getBackendLibHandler
+    26.6ms [ DEBUG ] Returning from getBackendHandler
+    26.6ms [ DEBUG ] Returning from getQnnContextWrapper
+    26.6ms [ DEBUG ] Entering getProfileLogger
+    26.6ms [ DEBUG ] Entering getBackendLibHandler
+    26.6ms [ DEBUG ] Returning from getBackendLibHandler
+    26.6ms [WARNING] Profile Logger with name = defaultKey doesn't exist! Returning nullptr
+    26.6ms [ DEBUG ] Returning from getProfileLogger
+    26.6ms [ DEBUG ] Entering finalizeGraphs
+    26.6ms [ DEBUG ] Allocating message 0x556d857ab0a0 from pool, (Use: 1, Q: 0)
+    19.4ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicGraph.cpp[1165]: finalize is called.
+AIC WARNING: MAC estimate does not yet handle all operations
+Original MAC estimate: 43,488,116,736
+Original Graph operation size histogram:
+output elts      op count (cumulative)
+           1,024                   10    3%
+           2,048                   12    3%
+         786,432                  203   62%
+       1,572,864                  260   80%
+       3,145,728                  323  100%
+preD32 constants size: 90.544 MB
+AIC HMX MAC estimate: 44,719,669,248
+AIC non-HMX MAC estimate: 0
+d32 constants size: 87.375 MB
+final constants size: 87.375 MB
+final combined specializations constants size:  86.414 MB
+
+
+Multicast counts for module of model
+=============================================
+Multicasts 315
+    > 1 dest 1
+      Pipelined 0
+      P2P 0
+      Not VTCM 0
+Multicast table size: 6
+
+
+Virtual address allocation
+==========================
+Static weight space 86.415 MB
+Dynamic weight space 0 B
+Total static SharedDDR space: 1.625 KB
+    Static non-IO variable space: 0 B
+    Static P2P IO space: 0 B
+    Static pipelined IO space: 1.125 KB
+    Static specialized predicate for MQTH space:  12 B
+Total dynamic SharedDDR space: 0 B
+    Dynamic non-IO variable space: 0 B
+    Dynamic P2P IO space: 0 B
+    Dynamic pipelined IO space 0 B
+Maximum static per core VA space: {VA size 772.012 MB VTLBs 61}
+Total VA space required for multicasts 16.004 MB
+
+VTCM0Size:      7.768 MB
+VTCM1Size:      7.777 MB
+VTCMMaxSize:    7.777 MB
+StaticSharedDDRSize:         1.625 KB
+DynamicSharedDDRSize:             0 B
+StaticConstantsSize:        86.415 MB
+MulticastStaticVASizeMax:   17.004 MB
+model
+Compiler estimated memory traffic:
+Port info:
+ port100: host input
+ port101: host output
+   host: DDR traffic  read:          1 KB (first-inf          1 KB)
+             constant only:          0 KB (first-inf          0 KB)
+ port101: DDR traffic  read:          1 KB, count = 1
+    c00: DDR traffic  read:      21689 KB (first-inf      22603 KB)
+             constant only:      21689 KB (first-inf      22603 KB)
+    c01: DDR traffic  read:      21707 KB (first-inf      22621 KB)
+             constant only:      21707 KB (first-inf      22621 KB)
+   host: DDR traffic write:          0 KB
+    c00: DDR traffic write:          3 KB
+    c01: DDR traffic write:          3 KB
+   host: MC  traffic  read:          2 KB
+ port101: MC  traffic  read:          2 KB, count: 1
+    c00: MC  traffic  read:          0 KB
+    c01: MC  traffic  read:          0 KB
+   host: MC  traffic write:          8 KB
+ port100: MC  traffic write:          8 KB, count: 1
+    c00: MC  traffic write:      20922 KB
+    c00:     constant only:      20921 KB
+    c01: MC  traffic write:      20939 KB
+    c01:     constant only:      20939 KB
+  total: DDR traffic  read:      43397 KB (first-inf      45225 KB)
+             constant only:      43396 KB (first-inf      45224 KB)
+  total: DDR traffic write:          6 KB
+  total: MC  traffic  read:          2 KB
+  total: MC  traffic write:      41869 KB
+  total:     constant only:      41860 KB
+  total:       PCI traffic:         11 KB, count: 3
+  total:    MQ PCI traffic:          0 KB, count: 0
+  c00 barriers:          3
+  c01 barriers:          3
+DynamicConstantsSize:       83.188 KB
+Constants size:             86.496 MB
+ELF sections size: 123.738 KB
+  6803.9ms [  INFO ] Exiting QnnGraph_finalize.
+  6811.2ms [ DEBUG ] Returning message 0x556d857ab0a0 to the pool. (Use: 0, Q: 1)
+  6811.2ms [ DEBUG ] Returning from finalizeGraphs
+  6811.2ms [ DEBUG ] Returning from finalizeGraphs
+  6811.2ms [  INFO ] Before saveBinary(): saving context and metadata.
+  6811.2ms [ DEBUG ] Entering saveContextToBinaryFile
+  6811.2ms [ DEBUG ] Entering getBackendHandler
+  6811.2ms [ DEBUG ] Entering getBackendLibHandler
+  6811.2ms [ DEBUG ] Returning from getBackendLibHandler
+  6811.2ms [ DEBUG ] Returning from getBackendHandler
+  6811.2ms [ DEBUG ] Entering getQnnContextWrapper
+  6811.2ms [ DEBUG ] Entering getBackendHandler
+  6811.2ms [ DEBUG ] Entering getBackendLibHandler
+  6811.2ms [ DEBUG ] Returning from getBackendLibHandler
+  6811.2ms [ DEBUG ] Returning from getBackendHandler
+  6811.2ms [ DEBUG ] Returning from getQnnContextWrapper
+  6811.2ms [ DEBUG ] Entering saveContextToBinaryFile
+  6811.3ms [VERBOSE] Inside createAndResizeFile()
+  6820.7ms [VERBOSE] Return from createAndResizeFile()
+.
+.
+.
+.
+.
+7104.5ms [VERBOSE] Inside writeBinaryToFile()
+  7209.5ms [VERBOSE] Return from writeBinaryToFile()
+  7361.4ms [ DEBUG ] Returning from saveContextToBinaryFile
+  7365.7ms [ DEBUG ] Returning from saveContextToBinaryFile
+  7365.7ms [ DEBUG ] Returning from finalizeGraphs
+  7365.7ms [ DEBUG ] Entering freeGraphsInfo
+  7365.7ms [ DEBUG ] Entering getQnnContextWrapper
+  7365.8ms [ DEBUG ] Entering getBackendHandler
+  7365.8ms [ DEBUG ] Entering getBackendLibHandler
+  7365.8ms [ DEBUG ] Returning from getBackendLibHandler
+  7365.8ms [ DEBUG ] Returning from getBackendHandler
+  7365.8ms [ DEBUG ] Returning from getQnnContextWrapper
+  7365.8ms [ DEBUG ] Returning from freeGraphsInfo
+  7365.8ms [  INFO ] Freeing graphsInfo
+  7365.8ms [ DEBUG ] Entering freeContext
+  7365.8ms [ DEBUG ] Entering getBackendLibHandler
+  7365.8ms [ DEBUG ] Returning from getBackendLibHandler
+  7365.8ms [ DEBUG ] Entering getBackendHandler
+  7365.8ms [ DEBUG ] Entering getBackendLibHandler
+  7365.8ms [ DEBUG ] Returning from getBackendLibHandler
+  7365.8ms [ DEBUG ] Returning from getBackendHandler
+  7365.8ms [WARNING] Profile Logger with name = defaultKey doesn't exist! Returning nullptr
+  7365.8ms [ DEBUG ] Entering freeContext
+  7365.8ms [ DEBUG ] Allocating message 0x556d857ab0a0 from pool, (Use: 1, Q: 0)
+  7358.6ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicContext.cpp[426]: free is called.
+  7358.7ms [ DEBUG ] /local/mnt/workspace/aguduru/QNN_SDK/qnn_wd/qnn_src/QAISW/FirstParty/QNN/AIC/compiler/AicGraph.cpp[1397]: free is called.
+  7370.6ms [ DEBUG ] Returning from freeContext
+  7370.7ms [ DEBUG ] Returning message 0x556d857ab0a0 to the pool. (Use: 0, Q: 1)
+  7370.7ms [ DEBUG ] Returning from freeContext
+  7370.7ms [ DEBUG ] Entering freeDeviceHandle
+  7370.7ms [ DEBUG ] Entering getBackendLibHandler
+  7370.7ms [ DEBUG ] Returning from getBackendLibHandler
+  7370.7ms [ DEBUG ] Entering freeDeviceHandle
+  7370.7ms [ DEBUG ] Returning from freeDeviceHandle
+  7370.7ms [ DEBUG ] Returning from freeDeviceHandle
+  7370.7ms [ DEBUG ] Entering terminateBackend
+  7370.7ms [ DEBUG ] Entering disposeProfileLogger
+  7370.7ms [ DEBUG ] Entering getBackendLibHandler
+  7370.7ms [ DEBUG ] Returning from getBackendLibHandler
+  7370.7ms [ DEBUG ] Entering disposeProfileLogger
+  7370.7ms [WARNING] Profile Logger with name = defaultKey doesn't exist!
+  7370.7ms [ DEBUG ] Returning from disposeProfileLogger
+  7370.7ms [ DEBUG ] Returning from disposeProfileLogger
+  7370.7ms [ DEBUG ] Entering freeBackendHandle
+  7370.7ms [ DEBUG ] Entering getBackendLibHandler
+  7370.7ms [ DEBUG ] Entering freeBackendHandle
+  7370.8ms [ DEBUG ] Returning from freeBackendHandle
+  7370.8ms [ DEBUG ] Entering ~BackendHandler
+  7370.8ms [ DEBUG ] Returning from ~BackendHandler
+  7370.8ms [ DEBUG ] Returning from freeBackendHandle
+  7370.8ms [ DEBUG ] Returning from terminateBackend
+  7370.8ms [ DEBUG ] Entering ~QnnRuntimeApp
+  7370.8ms [ DEBUG ] Entering ~BackendManager
+  7370.8ms [ DEBUG ] Entering ~BackendLibHandler
+  7370.8ms [ DEBUG ] Entering disposeResources
+  7370.8ms [VERBOSE] Disposing created backend handles
+  7370.8ms [VERBOSE] Disposing created device handles
+  7370.8ms [ DEBUG ] Entering ~BackendExtensions
+  7371.4ms [ DEBUG ] Returning from ~BackendExtensions
+  7371.4ms [VERBOSE] Disposing created log handles
+  7371.5ms [ DEBUG ] Returning from disposeResources
+  7371.6ms [ DEBUG ] Returning from ~BackendLibHandler
+  7371.6ms [ DEBUG ] Returning from ~BackendManager
+  7371.6ms [ DEBUG ] Returning from ~QnnRuntimeApp
+
+
+Net runner:
+
+
+(venv_py310) root@b956283726c7:~# nano /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_net_runner_backend_options_54327311-34e9-4dec-91ba-06c45df77cae.json
+
+(venv_py310) root@b956283726c7:~# nano /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_net_runner_config_54327311-34e9-4dec-91ba-06c45df77cae.json
+
+(venv_py310) root@b956283726c7:~#
+(venv_py310) root@b956283726c7:~# /qnn_sdk/bin/x86_64-linux-clang/qnn-net-run --backend /qnn_sdk/lib/x86_64-linux-clang/libQnnAic.so --input_list /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_list.txt --retrieve_context /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnngraph.serialized.bin --log_level info --profiling_level basic --output_dir output_54327311-34e9-4dec-91ba-06c45df77cae --config_file /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_net_runner_config_54327311-34e9-4dec-91ba-06c45df77cae.json  --duration 10 --keep_num_outputs 2  --use_native_input_files  --max_input_cache_tensor_sets -1
+
+qnn-net-run pid:5624
+     0.2ms [  INFO ] qnn-net-run build version: v2.36.0.250516152439_-3877-aic
+qnn-net-run build version: v2.36.0.250516152439_-3877-aic
+     6.2ms [  INFO ] Inferences will run in async mode
+qnn-net-run log level is : QNN_LOG_LEVEL_INFO
+Processing inference input(s):
+input_ids -> /home/qraniumtest/model_zoo//model-inputs/inputs/distilBert/SL-128/batch_size_8/./input_0.raw
+input_mask -> /home/qraniumtest/model_zoo//model-inputs/inputs/distilBert/SL-128/batch_size_8/./mask_0.raw
+     6.4ms [  INFO ] Initializing logging in the backend. Callback: [0x558058a25500], Log Level: [3]
+     6.6ms [  INFO ] Loading supplied backend extensions lib.
+     6.6ms [  INFO ] Backend extensions lib path: /qnn_sdk/lib/x86_64-linux-clang/libQnnAicNetRunExtensions.so
+     6.6ms [  INFO ] Backend extensions config path: /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-
+def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnn_net_runner_backend_options_54327311-34e9-4dec-91ba-06c45df77cae.json
+     0.0ms [WARNING] Current backend extension does not support perf profile. Any input passed using --perf_profile will not affect the performance
+     0.2ms [  INFO ] Runtime : Adding device ID: 5
+     0.2ms [  INFO ] Runtime : Setting number of activations: 7
+     0.2ms [  INFO ] Runtime : Setting threads per queue: 4
+     7.1ms [  INFO ] Profiling turned on; level = 1
+     7.4ms [  INFO ] Backend     build version: v2.36.0.250516152439_-3877-aic
+loading /opt/qti-aic/dev/lib/x86_64/libQAic.so
+    12.1ms [  INFO ] Creating context from binary file: /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-
+bs-def-mos-1-ols-1-inst-7-clust-def-dfs-no-nonmq-0/qnngraph.serialized.bin
+Creating context from binary file: /home/qraniumtest/qnn-aic-sdk-V2.32.0-RC6/Gigabyte_14NSP/PCIe/410/qnn_qairt_aic_perf/DistilBert/onnx-128-MP-ppp-def-cores-2-bs-def-mos-1-ols-1-in
+st-7-clust-def-dfs-no-nonmq-0/qnngraph.serialized.bin
+    12.1ms [  INFO ] Loading context from cached bin file
+   120.1ms [  INFO ] Input index: 0, tensor name: input_ids
+   120.1ms [  INFO ] Input index: 1, tensor name: input_mask
+   120.1ms [  INFO ] Output index: 0, tensor name: output_start_logits
+   120.1ms [  INFO ] Output index: 1, tensor name: output_end_logits
+   120.1ms [  INFO ] MQ Device Map: 5
+   120.6ms [  INFO ] [11:35:31.507681970  UTC]  HOST  [LogCommon] [info] [generateIoDescPb:#577][ThId:9724] Found and Adding Io Set for convert
+   120.6ms [  INFO ] [11:35:31.507721651  UTC]  HOST  [LogCommon] [info] [generateIoDescPb:#577][ThId:9724] Found and Adding Io Set for dma
+   120.7ms [  INFO ] [11:35:31.507795812  UTC]  HOST  [ProgramProfilingManager] [info] [addSampleSource:#136][ThId:9724] Adding sample source 
+ .
+.
+.
+.
+.
+.
+471.2ms [  INFO ] [11:35:31.858295636  UTC]  HOST  [LogCommon] [info] [generateIoDescPb:#577][ThId:9724] Found and Adding Io Set for convert
+   471.2ms [  INFO ] [11:35:31.858303376  UTC]  HOST  [LogCommon] [info] [generateIoDescPb:#577][ThId:9724] Found and Adding Io Set for dma
+   471.3ms [  INFO ] [11:35:31.858386737  UTC]  HOST  [LogCommon] [info] [generateIoDescPb:#577][ThId:9724] Found and Adding Io Set for convert
+   471.3ms [  INFO ] [11:35:31.858392957  UTC]  HOST  [LogCommon] [info] [generateIoDescPb:#577][ThId:9724] Found and Adding Io Set for dma
+   471.4ms [  INFO ] [11:35:31.858469968  UTC]  HOST  [LogCommon] [info] [generateIoDescPb:#577][ThId:9724] Found and Adding Io Set for convert
+   471.4ms [  INFO ] [11:35:31.858479648  UTC]  HOST  [LogCommon] [info] [generateIoDescPb:#577][ThId:9724] Found and Adding Io Set for dma
+   472.2ms [WARNING] [11:35:31.859355907  UTC]  HOST  [LogCommon] [warning] [qaicStreamProfilingAddProgram][ThId:9724] Stream Profiling is deprecated: Use qaicStartProfiling, qaicS
+topProfiling
+   472.3ms [WARNING] [11:35:31.859394837  UTC]  HOST  [LogCommon] [warning] [qaicStreamProfilingAddProgram][ThId:9724] Stream Profiling is deprecated: Use qaicStartProfiling, qaicS
+topProfiling
+   472.3ms [WARNING] [11:35:31.859434647  UTC]  HOST  [LogCommon] [warning] [qaicStreamProfilingAddProgram][ThId:9724] Stream Profiling is deprecated: Use qaicStartProfiling, qaicS
+topProfiling
+   472.4ms [WARNING] [11:35:31.859474768  UTC]  HOST  [LogCommon] [warning] [qaicStreamProfilingAddProgram][ThId:9724] Stream Profiling is deprecated: Use qaicStartProfiling, qaicS
+topProfiling
+   472.4ms [WARNING] [11:35:31.859520728  UTC]  HOST  [LogCommon] [warning] [qaicStreamProfilingAddProgram][ThId:9724] Stream Profiling is deprecated: Use qaicStartProfiling, qaicS
+topProfiling
+   472.4ms [WARNING] [11:35:31.859562429  UTC]  HOST  [LogCommon] [warning] [qaicStreamProfilingAddProgram][ThId:9724] Stream Profiling is deprecated: Use qaicStartProfiling, qaicS
+topProfiling
+   472.5ms [WARNING] [11:35:31.859607459  UTC]  HOST  [LogCommon] [warning] [qaicStreamProfilingAddProgram][ThId:9724] Stream Profiling is deprecated: Use qaicStartProfiling, qaicS
+topProfiling
+   485.6ms [  INFO ] Executing Graphs
+Executing Graphs
+   496.2ms [  INFO ] Making the directory: output_54327311-34e9-4dec-91ba-06c45df77cae/Result_0
+   496.3ms [  INFO ] FileName: output_start_logits.raw
+   496.6ms [  INFO ] Making the directory: output_54327311-34e9-4dec-91ba-06c45df77cae/Result_0
+   496.6ms [  INFO ] FileName: output_end_logits.raw
+   502.9ms [  INFO ] Making the directory: output_54327311-34e9-4dec-91ba-06c45df77cae/Result_1
+   502.9ms [  INFO ] FileName: output_start_logits.raw
+   503.4ms [  INFO ] Making the directory: output_54327311-34e9-4dec-91ba-06c45df77cae/Result_1
+   503.4ms [  INFO ] FileName: output_end_logits.raw
+ 10578.4ms [  INFO ] Executed Graph
+Finished Executing Graphs
+ 10579.3ms [  INFO ] Freeing graphsInfo
+
+
+Profile viewer:
+
+(venv_py310) root@b956283726c7:~# /qnn_sdk/bin/x86_64-linux-clang/qnn-profile-viewer --input_log output_54327311-34e9-4dec-91ba-06c45df77cae/qnn-profiling-data.log --reader /qnn_sdk/lib/x86_64-linux-clang/libQnnAicProfilingReader.so
+
+
+Multiple queue-wait time events found per execution. Cannot calculate Host Round-Trip excluding queue wait
+Multiple queue-wait time events found per execution. Cannot calculate Host Round-Trip excluding queue wait
+Multiple queue-wait time events found per execution. Cannot calculate Host Round-Trip excluding queue wait
+Input Log File Location: output_54327311-34e9-4dec-91ba-06c45df77cae/qnn-profiling-data.log
+Log File Created: Tue May 27 11:35:31 2025
+Time Scale: 1e-06
+Epoch Timestamp: 1748345731388085 Steady Clock Timestamp: 1801928232997
+Generated using:
+qnn-profile-viewer v2.36.0.250516152439_-3877-aic
+qnn-net-run        v2.36.0.250516152439_-3877-aic
+Backend            v2.36.0.250516152439_-3877-aic
+
+Execute Stats (Overall):
+------------------------
+Batch Size: 8
+Number of Instances: 7
+Total Number of Inferences: 9983
+Total Host Execution Time: 10088301 us
+
+Throughput:
+  Host Throughput (batched): 989.6900 inf/sec
+  Host Throughput: 7917.5200 inf/sec
+
+  Average Device Per Instance Throughput (batched): 141.6977 inf/sec
+  Average Device Throughput (batched): 991.8842 inf/sec
+  Average Device Throughput: 7935.0737 inf/sec
+
+Device Metrics:
+  -------------------------------------------------------------------------------------------------
+  Function  Device  Metric                 Average       Minimum       Maximum       Std. Dev.
+  -------------------------------------------------------------------------------------------------
+  0         0       BatchInfPerSec         141.7367      133.1401      148.0510      2.3430
+  0         0       EffectiveFrequencyMHz  1449.9770     1449.3966     1450.0091     0.0357
+  0         0       ExecTimeUs             7057.2755     6754.4271     7510.8854     117.0530
+  0         0       InfPCycles             10232886.1101 9793870.0000  10890768.0000 169662.2894
+  0         0       InfPerSec              1133.8935     1065.1208     1184.4084     18.7440
+
+
+
+
+
+
+
+
+
+
