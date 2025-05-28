@@ -1,0 +1,111 @@
+/home/qraniumtest/QDigest/views.py
+
+def storePerformanceResult(jsonData,key,config,run):
+    result_key=jsonData["results"][key]
+    host_inf_per_sec=result_key.get("host_inf_per_sec","-")
+    host_inf_per_sec_opstat=result_key.get("host_inf_per_sec_opstat","-")
+    device_inf_per_sec=result_key.get("device_inf_per_sec","-")
+    failure_cause = result_key.get("failure_cause","-")
+    failure_cause_log = result_key.get("failure_cause_log","-")
+    compile_time=result_key.get("compile_time","-")
+    if is_valid_time_format(compile_time):
+        compile_time=convert_compile_time(compile_time)
+    test_time=result_key.get("test_time","-")
+    device_latency=result_key.get("device_latency","-")
+    e2e_latency_avg=result_key.get("e2e_latency_avg","-")
+    e2e_latency_min=result_key.get("e2e_latency_min","-")
+    e2e_latency_max=result_key.get("e2e_latency_max","-")
+    avg_err=result_key.get("avg_err","-")
+    max_err=result_key.get("max_err","-")
+    avg_max_err_json = result_key.get("avg_max_err_json","-")
+    accuracy=result_key.get("accuracy","-")
+    avg_cpu_usage=result_key.get("avg_cpu_usage","-")
+    board_max_power=result_key.get("board_max_power","-")
+    board_avg_temp=result_key.get("board_avg_temp","-")
+    board_max_temp=result_key.get("board_max_temp","-")
+    soc_avg_temp=result_key.get("soc_avg_temp","-")
+    soc_max_temp=result_key.get("soc_max_temp","-")
+    status=result_key.get("status","-")
+    priority=result_key.get("priority",0)
+    model_update_date=result_key.get("model_update_date","-")
+    model_url=result_key.get("model_url","-")
+    execution_log = result_key.get("execution_log","-")
+    qaic_logs = result_key.get("qaic_logs","-")
+    optrace_link = result_key.get("optrace_link","-")
+    compile_log = result_key.get("compile_log","-")
+    commands = result_key.get("commands","-")
+    qacc_logs = result_key.get("qacc_logs","-")
+    pgq_logs = result_key.get("pgq_logs","-")
+    ddr_traffic_in = result_key.get("ddr_traffic_in","-")
+    ddr_traffic_out = result_key.get("ddr_traffic_out","-")
+    customer = result_key.get("customer","-")
+    network_status = result_key.get("network_status","-")
+    multiplication_factor = result_key.get("multiplication_factor","1")
+    host_ip=result_key.get("host_ip","-")
+    host_ip_opstat=result_key.get("host_ip_opstat","-")
+    convert_model = result_key.get("convert_model","-")
+    execute_net_runner = result_key.get("execute_net_runner","-")
+    generate_context_bin = result_key.get("generate_context_bin","-")
+    generate_model_lib = result_key.get("generate_model_lib","-")
+    execute_profile_viewer = result_key.get("execute_profile_viewer","-")
+    qpc_size=result_key.get("QPC Size (GB)","-")
+    host_inf_per_sec_with_freq_limit = result_key.get("host_inf_per_sec_with_freq_limit","-")
+    # total_roundtrip_time_us = result_key.get("totalRoundtripTime(uS)","-")
+    exec_pre_post_latency_ms = result_key.get("exec_pre_post_latency_ms","-")
+    # total_roundtrip_time_us=total_roundtrip_time_us, exec_pre_post_latency_us=exec_pre_post_latency_us
+    # populate model information
+    config_key = jsonData["results"][key]["config"]
+    model = config_key.get("model", "-")
+    model = populateModel(model)
+    if (model.count() != 0):
+        model = model[0]
+    # populate model meta
+    model_meta=ModelMeta.objects.filter(model_url=model_url,model=model)
+    if(model_meta.count()==0):
+        model_meta=ModelMeta(model_url=model_url,model=model)
+        model_meta.save()
+    model_meta=ModelMeta.objects.filter(model_url=model_url,model=model)
+    model_meta=model_meta[0]
+    # populate ecc details
+    ecc = result_key.get("ecc", None)
+
+    try:
+       ecc = storeEccDetails(ecc)
+       if (ecc.count() !=0):
+          ecc = ecc[0]
+    except Exception as e:
+       ecc = None
+
+    tdp = config_key.get("tdp", None)
+    if type(tdp) == str:
+       tdp = None
+    qacc_metric = result_key.get("qacc_metric",None)
+    qacc_params = result_key.get("qacc_params",None)
+    fp32_metric = result_key.get("fp32_metric",None)
+    #LLM Details
+    total_tok_sec=result_key.get("total(tok/sec)","-")
+    prefil_tok_sec=result_key.get("prefill(tok/sec)","-")
+    decode_tok_sec=result_key.get("decode(tok/sec)","-")
+    ttft_ms=result_key.get("TTFT(ms)","-")
+    tpot_avg_lat=result_key.get("TPOT(ms)","-")
+    qpc_size=result_key.get("QPC Size (GB)","-")
+    pl=result_key.get("PL","-")
+    cl=result_key.get("CL","-")
+    bs=result_key.get("BS","-")
+    gl=result_key.get("GL","-")
+
+    ########  store results
+    result=PerformanceResults.objects.filter(config=config,run=run,tdp=tdp,priority=priority)
+    if(result.count()==0):
+       result=PerformanceResults(compile_time=compile_time,test_time=test_time,host_inf_per_sec=host_inf_per_sec,host_inf_per_sec_opstat=host_inf_per_sec_ops>
+       result.save()
+       qid = result_key.get("qid","-")
+       soc = result_key.get("soc","-")
+       os_grouping = result_key.get("os_grouping","-")
+       if qid not in [None,'-'] or soc not in [None,'-'] or os_grouping not in [None,'-']:
+          meta=auto_meta(result=result,qid=qid,soc=soc,os_grouping=os_grouping)
+          meta.save()
+       llm_data_list=[total_tok_sec,prefil_tok_sec,decode_tok_sec,ttft_ms,tpot_avg_lat]
+       llm_obj=performanceresults_llm(result=result,prefil_tok_sec=prefil_tok_sec,decode_tok_sec=decode_tok_sec,ttft_ms=ttft_ms,tpot_avg_lat_per_tok=tpot_avg>
+       llm_obj.save()
+
