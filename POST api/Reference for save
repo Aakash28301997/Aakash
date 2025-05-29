@@ -1,0 +1,133 @@
+@api_view(['GET','POST'])
+def storePerformanceResults(request):
+    try:
+        print('store performance results',request)
+        newRun = request.GET.get('newRun')
+        jsonData=request.data
+        print('jsonData.....',jsonData)
+        user=jsonData['user']
+        print('user....',user)
+        test_type=jsonData['test_type']
+        ''' get target details and store it to DB if not present'''
+        target=jsonData["target"]
+        target_name=target.get("target_name","-")
+        host_ip=target.get("host_ip","-")
+        host_slot=target.get("host_slot","-")
+        os=target.get("os","-")
+        device_form_factor=target.get("device_form_factor","-")
+        tdp=target.get("tdp","-")
+        cpu=target.get("cpu","-")
+        memory=target.get("memory","-")
+        target=Target.objects.filter(target_name=target_name,host_ip=host_ip,host_slot=host_slot,os=os,device_form_factor=device_form_factor,tdp=tdp,cpu=cpu,memory=memory)
+        print('target....',target.count())
+        if (target.count()==0):
+           target=Target(target_name=target_name,host_ip=host_ip,host_slot=host_slot,os=os,device_form_factor=device_form_factor,tdp=tdp,cpu=cpu,memory=memory)
+           target.save()
+           target=Target.objects.filter(target_name=target_name,host_ip=host_ip,host_slot=host_slot,os=os,device_form_factor=device_form_factor,tdp=tdp,cpu=cpu,memory=memory)
+
+        ''' get the sdk info and store it to the DB '''
+        sdk_info=storeSDKInfo(jsonData)
+        ''' get sw info and persist it'''
+        sw_info=persistSWDetails(jsonData)
+        print('sw_info',sw_info)
+        ''' persist test run info '''
+        if (newRun == 'false'):
+            platform = jsonData["platform"]
+            testrun = TestRun.objects.filter(user=user, platform=platform, sdk_info=sdk_info[0], sw_info=sw_info[0]).order_by('-run_id')
+        else:
+            testrun=persistTestRunInfo(jsonData,target[0],sw_info[0],sdk_info[0])
+        #testrun=persistTestRunInfo(jsonData,target[0],sw_info[0],sdk_info[0])
+        print('testrun',testrun)
+        ''' populate module commit-ids if test is user triggered '''
+        #if (user!='system'):
+           #populateModuleCommits(jsonData,testrun[0])
+        print("length::::::",len(jsonData['results']))
+        for key in range(len(jsonData['results'])):
+            ''' get performance config and persist it to DB'''
+            print(jsonData["results"][key]["config"])
+            tags=jsonData["results"][key]["config"]["tag"]
+            tags_list=tags.split(',')
+            primary_key_list=['auto','cloud','mlperf','edge']
+            primary_tag=next((item for item in primary_key_list if item in tags_list), '-')
+            for tag in tags_list:
+                print(tag)
+                config=persistPerformanceConfig(jsonData,key,tag,primary_tag)
+                ''' store performance result for the config '''
+                storePerformanceResult(jsonData,key,config[0],testrun[0])
+                print("ok")
+        message='result stored'
+    except:
+        print('ERRRRRRR==>', sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2])
+        sys.exc_info()[2]
+        exception_type, exception_object, exception_traceback = sys.exc_info()
+        line_number = exception_traceback.tb_lineno
+        filename = exception_traceback.tb_frame.f_code.co_filename
+        if 'sdk_info' in jsonData:
+           sdk_info_version = jsonData['sdk_info']['sdk_version']
+        else:
+           sdk_info_version = 'SDK Info Missing'
+        try:
+           email_message = "Subject: AIC." + sdk_info_version + " " + jsonData['platform'] + "\n\n Hi Team, \n Error in result storage API line number:" + str(line_number) + " in >
+           email_send_function(email_message)
+        except:
+           pass
+        message='error in result storage...',sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2]
+        return JsonResponse({'message': str(message), 'error': True})
+    return HttpResponse(message)
+
+
+
+
+
+
+def storeSDKInfo(jsonData):
+    sdk_version=jsonData["sdk_info"]["sdk_version"]
+    base_name=jsonData["sdk_info"]["base_name"]
+    base_version=jsonData["sdk_info"]["base_version"]
+    branch=jsonData["sdk_info"]["branch"]
+    nightly_sdk=NightlySDK.objects.filter(sdk_version=sdk_version,branch=branch,base_name=base_name,base_version=base_version)
+    if(nightly_sdk.count()==0):
+       nightly_sdk=NightlySDK(sdk_version=sdk_version,branch=branch,base_name=base_name,base_version=base_version)
+       nightly_sdk.save()
+       nightly_sdk=NightlySDK.objects.filter(sdk_version=sdk_version,branch=branch,base_name=base_name,base_version=base_version)
+    return nightly_sdk
+
+
+
+def persistSWDetails(jsonData):
+    num_nsp=jsonData["sw_info"]["Nsp Total"]
+    nsp_freq=jsonData["sw_info"]["NSP Frequency(Mhz)"]
+    ddr_freq=jsonData["sw_info"]["DDR Frequency(Mhz)"]
+    compnoc_freq=jsonData["sw_info"]["COMPNOC Frequency(Mhz)"]
+    memnoc_freq=jsonData["sw_info"]["MEMNOC Frequency(Mhz)"]
+    sysnoc_freq=jsonData["sw_info"]["SYSNOC Frequency(Mhz)"]
+    sw_detail=SW_Details.objects.filter(num_nsp=num_nsp,nsp_freq=nsp_freq,ddr_freq=ddr_freq,compnoc_freq=compnoc_freq,memnoc_freq=memnoc_freq,sysnoc_freq=sysnoc_freq)
+    if (sw_detail.count()==0):
+       sw_detail=SW_Details(num_nsp=num_nsp,nsp_freq=nsp_freq,ddr_freq=ddr_freq,compnoc_freq=compnoc_freq,memnoc_freq=memnoc_freq,sysnoc_freq=sysnoc_freq)
+       sw_detail.save()
+       sw_detail=SW_Details.objects.filter(num_nsp=num_nsp,nsp_freq=nsp_freq,ddr_freq=ddr_freq,compnoc_freq=compnoc_freq,memnoc_freq=memnoc_freq,sysnoc_freq=sysnoc_freq)
+    return sw_detail
+
+
+
+
+
+def persistTestRunInfo(jsonData,target,sw_info,sdk_info):
+    user=jsonData["user"]
+    test_type=jsonData["test_type"]
+    #digest_type=jsonData["digest_type"]
+    platform=jsonData["platform"]
+    total_configs=jsonData.get("total_config","-")
+    jenkins_log_path=jsonData["jenkins_log_path"]
+    windows_log_path=jsonData["windows_log_path"]
+    linux_log_path=jsonData["linux_log_path"]
+    timestamp=timezone.now()
+    testrun=TestRun.objects.filter(platform=platform,user=user,test_type=test_type,sdk_info=sdk_info,target=target,sw_info=sw_info,timestamp=timestamp)
+    if(testrun.count()==0):
+       testrun=TestRun(platform=platform,user=user,jenkins_log_path=jenkins_log_path,windows_log_path=windows_log_path,linux_log_path=linux_log_path,test_type=test_type,sdk_info=s>
+       testrun.save()
+       print(testrun.run_id)
+       #testrun=TestRun.objects.filter(digest_type=digest_type,user=user,test_type=test_type,sdk_info=sdk_info,target=target,sw_info=sw_info,timestamp=timestamp)
+    #print(testrun)
+       testrun=TestRun.objects.filter(run_id=testrun.run_id)
+    return testrun
