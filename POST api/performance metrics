@@ -1,0 +1,18 @@
+metrics
+ 
+ 
+vllm dataset
+1.e2e_processed_tok_sec
+ 
+ 
+vllm fixed pl gl
+1.e2e_generated_tok_sec
+2.e2e_processed_tok_sec
+3.average_ttft(sec)
+ 
+ 
+vllm online server
+1.output_token_throughput(tok/s)
+2.mean_ttft_sec
+3.request_throughput(req/s)
+4.total_token_throughput_tok_sec
