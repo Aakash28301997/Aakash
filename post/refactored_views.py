@@ -110,8 +110,9 @@ def build_results_payload(row):
         "request_throughput(req/s)", "total_token_throughput_tok_sec"
     ]
     performance_metrics = {
-        key: row.get(key) for key in performance_metrics_keys if row.get(key) is not None
+        key: row.get(key, "") for key in performance_metrics_keys
     }
+
 
     return execution_time, device_stats, model_stats, performance_metrics
 
@@ -155,7 +156,7 @@ def upload_csv(request):
             )
 
             for key, value in performance_metrics.items():
-                PerformanceMetrics.objects.create(results=result, key=key, value=value)
+                Performance.objects.create(results=result, **performance_metrics)
 
             created_count += 1
 
