@@ -83,7 +83,12 @@ class Results(models.Model):
    config = models.ForeignKey(Config, on_delete=models.CASCADE)
    run = models.ForeignKey(RunDetails, on_delete=models.CASCADE)
 
-class PerformanceMetrics(models.Model):
-   metrics_id = models.AutoField(primary_key=True)
-   result = models.OneToOneField(Results, on_delete=models.CASCADE, related_name="performance_metrics")
-   metrics_data = models.JSONField()
+class Performance(models.Model):
+    results = models.OneToOneField(Results, on_delete=models.CASCADE, related_name="performance")
+    e2e_processed_tok_sec = models.CharField(max_length=100, blank=True)
+    e2e_generated_tok_sec = models.CharField(max_length=100, blank=True)
+    average_ttft_sec = models.CharField(max_length=100, blank=True)
+    output_token_throughput = models.CharField(max_length=100, blank=True)
+    mean_ttft_sec = models.CharField(max_length=100, blank=True)
+    request_throughput = models.CharField(max_length=100, blank=True)
+    total_token_throughput_tok_sec = models.CharField(max_length=100, blank=True)
