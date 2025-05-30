@@ -44,9 +44,12 @@ def create_ecc(row):
     )
 
 def get_or_create_model(row):
+    model_name = row.get("model", "default_model")
+    model_framework = row.get("model_framework", "unknown_framework")
+    
     model_obj, _ = Model.objects.get_or_create(
-        model=row.get("model", "default_model"),
-        defaults={"vllm_dataset": row.get("vllm_dataset", "")}
+        model_name=model_name,
+        model_framework=model_framework
     )
     return model_obj
 
